@@ -1,54 +1,56 @@
 // src/stores/productStore.js
 
-import { defineStore } from 'pinia'
-import axios from 'axios'
-import { ElMessage } from 'element-plus'
-import { useAuthStore } from './authStore'
+import { defineStore } from "pinia";
+import axios from "axios";
+import { ElMessage } from "element-plus";
+import { useAuthStore } from "./authStore";
 
-export const useProductStore = defineStore('product', {
+const API_BASE = import.meta.env.VITE_API_BASE;
+
+export const useProductStore = defineStore("product", {
   state: () => ({
-    products: []
+    products: [],
   }),
   actions: {
     async fetchProducts() {
-      const res = await axios.get('http://localhost:3000/products')
-      this.products = res.data
+      const res = await axios.get(`${API_BASE}/products`);
+      this.products = res.data;
     },
 
     async addProduct(product) {
-      const auth = useAuthStore()
-      await axios.post('http://localhost:3000/products', product, {
+      const auth = useAuthStore();
+      await axios.post(`${API_BASE}/products`, product, {
         headers: {
-          'x-role': auth.user?.role,
-          'x-username': auth.user?.username || 'unknown'
-        }
-      })
-      this.fetchProducts()
-      ElMessage.success('✅ 商品已新增')
+          "x-role": auth.user?.role,
+          "x-username": auth.user?.username || "unknown",
+        },
+      });
+      this.fetchProducts();
+      ElMessage.success("商品已新增");
     },
 
     async deleteProduct(id) {
-      const auth = useAuthStore()
-      await axios.delete(`http://localhost:3000/products/${id}`, {
+      const auth = useAuthStore();
+      await axios.delete(`${API_BASE}/products/${id}`, {
         headers: {
-          'x-role': auth.user?.role,
-          'x-username': auth.user?.username || 'unknown'
-        }
-      })
-      this.fetchProducts()
-      ElMessage.success('🗑️ 商品已刪除')
+          "x-role": auth.user?.role,
+          "x-username": auth.user?.username || "unknown",
+        },
+      });
+      this.fetchProducts();
+      ElMessage.success("商品已刪除");
     },
 
     async updateProduct(id, updatedData) {
-      const auth = useAuthStore()
-      await axios.put(`http://localhost:3000/products/${id}`, updatedData, {
+      const auth = useAuthStore();
+      await axios.put(`${API_BASE}/products/${id}`, updatedData, {
         headers: {
-          'x-role': auth.user?.role,
-          'x-username': auth.user?.username || 'unknown'
-        }
-      })
-      this.fetchProducts()
-      ElMessage.success('✏️ 商品已更新')
-    }
-  }
-})
+          "x-role": auth.user?.role,
+          "x-username": auth.user?.username || "unknown",
+        },
+      });
+      this.fetchProducts();
+      ElMessage.success("商品已更新");
+    },
+  },
+});
