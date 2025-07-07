@@ -135,7 +135,7 @@
         </el-form-item>
         <el-form-item label="重新上傳圖片">
           <el-upload
-            :action="`${import.meta.env.VITE_API_BASE}/upload`"
+            :action="uploadUrl"
             name="image"
             :show-file-list="false"
             :on-success="handleUploadSuccess"
@@ -170,6 +170,7 @@ import { useProductStore } from "@/stores/productStore"
 import { ElMessageBox, ElMessage } from "element-plus"
 import { useAuthStore } from '@/stores/authStore'
 
+const uploadUrl = `${import.meta.env.VITE_API_BASE}/upload`
 const auth = useAuthStore()
 const isAdmin = computed(() => auth.user?.role === 'admin')
 const router = useRouter()
