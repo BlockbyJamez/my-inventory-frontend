@@ -69,6 +69,7 @@ const logs = ref([])
 const selectedAction = ref('')
 const auth = useAuthStore()
 const router = useRouter()
+const API = import.meta.env.VITE_API_BASE
 
 const isMobile = ref(window.innerWidth <= 768)
 window.addEventListener('resize', () => {
@@ -120,7 +121,7 @@ const filteredLogs = computed(() => {
 })
 
 async function fetchLogs() {
-  const res = await fetch('http://localhost:3000/logs', {
+  const res = await fetch(`${API}/logs`, {
     headers: {
       'x-role': auth.user?.role || '',
       'x-username': auth.user?.username || 'unknown'

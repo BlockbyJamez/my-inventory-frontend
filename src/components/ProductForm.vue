@@ -26,7 +26,7 @@
           <el-input type="textarea" v-model="form.description" placeholder="請輸入描述" />
         </el-form-item>
         <el-form-item label="上傳圖片">
-          <el-upload action="http://localhost:3000/upload" name="image" :show-file-list="false" :on-success="handleUploadSuccess">
+          <el-upload :action="`${import.meta.env.VITE_API_BASE}/upload`" name="image" :show-file-list="false" :on-success="handleUploadSuccess">
             <el-button>選擇圖片</el-button>
           </el-upload>
         </el-form-item>
@@ -53,7 +53,7 @@
         <el-input type="textarea" v-model="form.description" placeholder="請輸入描述" />
 
         <label>上傳圖片</label>
-        <el-upload action="http://localhost:3000/upload" name="image" :show-file-list="false" :on-success="handleUploadSuccess">
+        <el-upload :action="`${import.meta.env.VITE_API_BASE}/upload`" name="image" :show-file-list="false" :on-success="handleUploadSuccess">
           <el-button>選擇圖片</el-button>
         </el-upload>
 

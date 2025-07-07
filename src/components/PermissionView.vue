@@ -70,6 +70,7 @@ const users = ref([])
 const auth = useAuthStore()
 const router = useRouter()
 const roleFilter = ref("")
+const API = import.meta.env.VITE_API_BASE
 
 const filteredUsers = computed(() => {
   if (!roleFilter.value) return users.value
@@ -81,7 +82,7 @@ function goBack() {
 }
 
 async function fetchUsers() {
-  const res = await fetch('http://localhost:3000/users', {
+  const res = await fetch(`${API}/users`, {
     headers: {
       'x-role': auth.user?.role || 'viewer',
       'x-username': auth.user?.username || ''
@@ -96,7 +97,7 @@ async function fetchUsers() {
 }
 
 async function updateRole(userId, newRole) {
-  const res = await fetch(`http://localhost:3000/users/${userId}/role`, {
+  const res = await fetch(`${API}/users/${userId}/role`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

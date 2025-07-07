@@ -135,7 +135,7 @@
         </el-form-item>
         <el-form-item label="重新上傳圖片">
           <el-upload
-            action="http://localhost:3000/upload"
+            :action="`${import.meta.env.VITE_API_BASE}/upload`"
             name="image"
             :show-file-list="false"
             :on-success="handleUploadSuccess"

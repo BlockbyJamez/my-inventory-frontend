@@ -58,6 +58,7 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/authStore";
 import { ElMessage, ElLoading } from "element-plus";
 
+const API_BASE = import.meta.env.VITE_API_BASE;
 const router = useRouter();
 const auth = useAuthStore();
 
@@ -91,7 +92,7 @@ async function login() {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   try {
-    const res = await fetch(`${import.meta.env.VITE_API_BASE}/api/login`, {
+    const res = await fetch(`${API_BASE}/api/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

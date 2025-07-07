@@ -55,6 +55,20 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
+<<<<<<< HEAD
 });
+=======
+  else if (to.path === '/login' && auth.user) {
+    next('/')
+  }
+  else if (to.meta.requiresAdmin && auth.user?.role !== 'admin') {
+    alert('此頁面僅限管理員使用')
+    next('/products')
+  }
+  else {
+    next()
+  }
+})
+>>>>>>> 2c94231 (init frontend only)
 
 export default router;
