@@ -43,21 +43,11 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const auth = useAuthStore();
+  const auth = useAuthStore()
 
   if (to.meta.requiresAuth && !auth.user) {
-    next("/login");
-  } else if (to.path === "/login" && auth.user) {
-    next("/");
-  } else if (to.meta.requiresAdmin && auth.user?.role !== "admin") {
-    alert("此頁面僅限管理員使用");
-    next("/products");
-  } else {
-    next();
+    next('/login')
   }
-<<<<<<< HEAD
-});
-=======
   else if (to.path === '/login' && auth.user) {
     next('/')
   }
@@ -69,6 +59,6 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
->>>>>>> 2c94231 (init frontend only)
+
 
 export default router;
