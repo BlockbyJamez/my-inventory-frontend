@@ -95,7 +95,7 @@ import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage, ElLoading } from "element-plus";
 
-const API = import.meta.env.VITE_API_BASE
+const API_BASE = import.meta.env.VITE_API_BASE;
 const router = useRouter();
 const step = ref(1);
 const resetToken = ref("");
@@ -117,7 +117,7 @@ async function sendCode() {
   });
 
   try {
-    const res = await fetch(`${API}/api/forgot-password`, {
+    const res = await fetch(`${API_BASE}/api/forgot-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ identifier: form.identifier }),

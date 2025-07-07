@@ -72,7 +72,7 @@ import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage, ElLoading } from "element-plus";
 
-const API = import.meta.env.VITE_API_BASE
+const API_BASE = import.meta.env.VITE_API_BASE;
 const router = useRouter();
 const formRef = ref();
 const form = reactive({
@@ -119,7 +119,7 @@ async function register() {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   try {
-    const res = await fetch(`${API}/api/register`, {
+    const res = await fetch(`${API_BASE}/api/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
