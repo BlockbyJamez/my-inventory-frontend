@@ -83,12 +83,7 @@ const form = reactive({
 });
 
 async function register() {
-  if (
-    !form.username ||
-    !form.password ||
-    !form.confirmPassword ||
-    !form.email
-  ) {
+  if (!form.username || !form.password || !form.confirmPassword || !form.email) {
     ElMessage.warning("請填寫所有欄位");
     return;
   }
@@ -116,8 +111,6 @@ async function register() {
     background: "rgba(0, 0, 0, 0.7)",
   });
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
   try {
     const res = await fetch(`${API_BASE}/api/register`, {
       method: "POST",
@@ -129,9 +122,10 @@ async function register() {
       }),
     });
 
+    const result = await res.json();
+
     if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error || "註冊失敗");
+      throw new Error(result.error || "註冊失敗");
     }
 
     ElMessage.success("✅ 註冊成功，請登入");

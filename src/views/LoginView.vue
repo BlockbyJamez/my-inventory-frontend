@@ -89,8 +89,6 @@ async function login() {
     background: "rgba(0, 0, 0, 0.7)",
   });
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
   try {
     const res = await fetch(`${API_BASE}/api/login`, {
       method: "POST",
@@ -101,12 +99,11 @@ async function login() {
       }),
     });
 
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error || "登入失敗");
-    }
-
     const result = await res.json();
+
+    if (!res.ok) {
+      throw new Error(result.error || "登入失敗");
+    }
 
     if (form.remember) {
       localStorage.setItem("savedUsername", form.username);
