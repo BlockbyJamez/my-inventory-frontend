@@ -4,7 +4,7 @@
       <h2 class="title">🔐 登入系統</h2>
       <p class="subtitle">歡迎回來，請輸入帳號與密碼</p>
 
-      <el-form :model="form" class="login-form" label-position="top">
+      <el-form :model="form" class="login-form" label-position="top" @keyup.enter="login">
         <el-form-item label="帳號">
           <el-input
             v-model="form.username"

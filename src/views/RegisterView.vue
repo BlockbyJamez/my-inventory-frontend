@@ -5,7 +5,7 @@
       <p class="subtitle" v-if="step === 1">請填寫帳號與信箱以接收驗證碼</p>
       <p class="subtitle" v-else>請輸入收到的驗證碼完成註冊</p>
 
-      <el-form :model="form" ref="formRef" label-position="top" class="register-form">
+      <el-form :model="form" ref="formRef" label-position="top" class="register-form" @keyup.enter="step === 1 ? sendCode() : verifyAndRegister()">
         <template v-if="step === 1">
           <el-form-item label="帳號">
             <el-input v-model="form.username" placeholder="請輸入帳號" size="large" clearable />

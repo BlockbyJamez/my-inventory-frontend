@@ -4,7 +4,7 @@
       <template v-if="step === 1">
         <h2 class="title">🔐 忘記密碼</h2>
         <p class="subtitle">請輸入帳號，我們將寄出驗證碼</p>
-        <el-form :model="form" label-position="top">
+        <el-form :model="form" label-position="top" @keyup.enter="sendCode">
           <el-form-item label="帳號">
             <el-input
               v-model="form.identifier"
@@ -28,7 +28,7 @@
       <template v-else-if="step === 2">
         <h2 class="title">📩 驗證信箱</h2>
         <p class="subtitle">請輸入收到的 6 碼驗證碼</p>
-        <el-form :model="form" label-position="top">
+        <el-form :model="form" label-position="top" @keyup.enter="verifyCode">
           <el-form-item label="驗證碼">
             <el-input
               v-model="form.code"
@@ -52,7 +52,7 @@
       <template v-else-if="step === 3">
         <h2 class="title">🔒 設定新密碼</h2>
         <p class="subtitle">請輸入新的密碼</p>
-        <el-form :model="form" label-position="top">
+        <el-form :model="form" label-position="top" @keyup.enter="resetPassword">
           <el-form-item label="新密碼">
             <el-input
               v-model="form.newPassword"
