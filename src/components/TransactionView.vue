@@ -142,7 +142,7 @@ import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { useAuthStore } from "@/stores/authStore";
 
-const API = import.meta.env.VITE_API_BASE
+const API_BASE = import.meta.env.VITE_API_BASE;
 const router = useRouter();
 const products = ref([]);
 const transactions = ref([]);
@@ -178,13 +178,13 @@ function resetFilter() {
 }
 
 async function fetchProducts() {
-  const res = await fetch(`${API}/products`);
+  const res = await fetch(`${API_BASE}/products`);
   products.value = await res.json();
   if (products.value.length) form.value.product_id = products.value[0].id;
 }
 
 async function fetchTransactions() {
-  const res = await fetch(`${API}/transactions`);
+  const res = await fetch(`${API_BASE}/transactions`);
   transactions.value = await res.json();
 }
 
@@ -192,7 +192,7 @@ async function handleSubmit() {
   const auth = useAuthStore();
   const role = auth.user?.role || "viewer";
   const username = auth.user?.username || "unknown";
-  const res = await fetch(`${API}/transactions`, {
+  const res = await fetch(`${API_BASE}/transactions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
