@@ -134,6 +134,13 @@ async function verifyAndRegister() {
     loading.close();
   }
 }
+
+document.querySelectorAll('input, textarea, select').forEach((el) => {
+  el.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    el.focus({ preventScroll: true });
+  });
+});
 </script>
 
 <style scoped>
