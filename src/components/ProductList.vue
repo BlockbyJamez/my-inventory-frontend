@@ -17,7 +17,9 @@
 
       <!-- 分類統計 -->
       <details class="category-summary">
-        <summary>🏷️ 分類統計（共 {{ Object.keys(stats.categoryCounts).length }} 類）</summary>
+        <summary>
+          🏷️ 分類統計（共 {{ Object.keys(stats.categoryCounts).length }} 類）
+        </summary>
         <div class="category-list">
           <span
             v-for="(count, category) in stats.categoryCounts"
@@ -64,7 +66,12 @@
           @sort-change="handleSortChange"
         >
           <el-table-column prop="id" label="ID" width="80" sortable />
-          <el-table-column label="圖片" width="120" align="center" header-align="center">
+          <el-table-column
+            label="圖片"
+            width="120"
+            align="center"
+            header-align="center"
+          >
             <template #default="scope">
               <img
                 :src="scope.row.image || 'https://via.placeholder.com/100'"
@@ -79,8 +86,14 @@
           <el-table-column prop="stock" label="庫存數量" sortable />
           <el-table-column label="操作" width="200" v-if="isAdmin">
             <template #default="scope">
-              <el-button size="small" @click="openEdit(scope.row)">編輯</el-button>
-              <el-button size="small" type="danger" @click="deleteProduct(scope.row.id)">
+              <el-button size="small" @click="openEdit(scope.row)"
+                >編輯</el-button
+              >
+              <el-button
+                size="small"
+                type="danger"
+                @click="deleteProduct(scope.row.id)"
+              >
                 刪除
               </el-button>
             </template>
@@ -91,7 +104,10 @@
       <!-- 手機版卡片 -->
       <div v-else class="product-card-list">
         <div v-for="item in paginatedData" :key="item.id" class="product-card">
-          <img :src="item.image || 'https://via.placeholder.com/100'" alt="商品圖" />
+          <img
+            :src="item.image || 'https://via.placeholder.com/100'"
+            alt="商品圖"
+          />
           <div class="product-info">
             <p><strong>商品名稱：</strong>{{ item.name }}</p>
             <p><strong>分類：</strong>{{ item.category }}</p>
@@ -100,7 +116,12 @@
           </div>
           <div v-if="isAdmin" class="card-actions">
             <el-button size="small" @click="openEdit(item)">編輯</el-button>
-            <el-button size="small" type="danger" @click="deleteProduct(item.id)">刪除</el-button>
+            <el-button
+              size="small"
+              type="danger"
+              @click="deleteProduct(item.id)"
+              >刪除</el-button
+            >
           </div>
         </div>
       </div>
@@ -139,6 +160,7 @@
             name="image"
             :show-file-list="false"
             :on-success="handleUploadSuccess"
+            :before-upload="beforeUpload"
           >
             <el-button>選擇圖片</el-button>
           </el-upload>
@@ -154,43 +176,47 @@
       </el-form>
 
       <template #footer>
-      <div class="dialog-footer-buttons">
-        <el-button size="small" @click="editDialogVisible = false">取消</el-button>
-        <el-button size="small" type="primary" @click="updateProduct">儲存</el-button>
-      </div>
+        <div class="dialog-footer-buttons">
+          <el-button size="small" @click="editDialogVisible = false"
+            >取消</el-button
+          >
+          <el-button size="small" type="primary" @click="updateProduct"
+            >儲存</el-button
+          >
+        </div>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "vue"
-import { useRouter } from "vue-router"
-import { useProductStore } from "@/stores/productStore"
-import { ElMessageBox, ElMessage } from "element-plus"
-import { useAuthStore } from '@/stores/authStore'
+import { ref, computed, onMounted, onUnmounted } from "vue";
+import { useRouter } from "vue-router";
+import { useProductStore } from "@/stores/productStore";
+import { ElMessageBox, ElMessage } from "element-plus";
+import { useAuthStore } from "@/stores/authStore";
 
-const uploadUrl = `${import.meta.env.VITE_API_BASE}/upload`
-const auth = useAuthStore()
-const isAdmin = computed(() => auth.user?.role === 'admin')
-const router = useRouter()
-const store = useProductStore()
+const uploadUrl = `${import.meta.env.VITE_API_BASE}/upload`;
+const auth = useAuthStore();
+const isAdmin = computed(() => auth.user?.role === "admin");
+const router = useRouter();
+const store = useProductStore();
 const products = computed(() => store.products);
 
-const searchText = ref("")
-const selectedCategory = ref("")
-const currentPage = ref(1)
-const pageSize = ref(5)
+const searchText = ref("");
+const selectedCategory = ref("");
+const currentPage = ref(1);
+const pageSize = ref(5);
 
-const defaultSort = ref({ prop: "id", order: "ascending" })
-const currentSort = ref({ ...defaultSort.value })
+const defaultSort = ref({ prop: "id", order: "ascending" });
+const currentSort = ref({ ...defaultSort.value });
 
-const isMobile = ref(window.innerWidth <= 768)
+const isMobile = ref(window.innerWidth <= 768);
 function handleResize() {
-  isMobile.value = window.innerWidth <= 768
+  isMobile.value = window.innerWidth <= 768;
 }
-window.addEventListener("resize", handleResize)
-onUnmounted(() => window.removeEventListener("resize", handleResize))
+window.addEventListener("resize", handleResize);
+onUnmounted(() => window.removeEventListener("resize", handleResize));
 
 const categoryOptions = computed(() => {
   const categories = new Set(products.value.map((p) => p.category));
@@ -240,7 +266,7 @@ const editForm = ref({
   price: 0,
   category: "",
   description: "",
-  image: ""
+  image: "",
 });
 
 onMounted(() => {
@@ -251,7 +277,10 @@ const stats = computed(() => {
   const list = sortedAndFiltered.value;
   const totalProducts = list.length;
   const totalStock = list.reduce((sum, p) => sum + (p.stock || 0), 0);
-  const totalValue = list.reduce((sum, p) => sum + ((p.stock || 0) * (p.price || 0)), 0);
+  const totalValue = list.reduce(
+    (sum, p) => sum + (p.stock || 0) * (p.price || 0),
+    0
+  );
 
   const categoryCounts = {};
   list.forEach((p) => {
@@ -269,22 +298,22 @@ const stats = computed(() => {
 
 const statDisplay = computed(() => ({
   totalProducts: {
-    label: '📦 商品總數',
-    value: stats.value.totalProducts
+    label: "📦 商品總數",
+    value: stats.value.totalProducts,
   },
   totalStock: {
-    label: '🧮 庫存總數',
-    value: stats.value.totalStock
+    label: "🧮 庫存總數",
+    value: stats.value.totalStock,
   },
   totalValue: {
-    label: '💰 庫存總價值',
-    value: stats.value.totalValue.toLocaleString() + ' 元'
+    label: "💰 庫存總價值",
+    value: stats.value.totalValue.toLocaleString() + " 元",
   },
   categoryCount: {
-    label: '🏷️ 分類數量',
-    value: Object.keys(stats.value.categoryCounts).length
-  }
-}))
+    label: "🏷️ 分類數量",
+    value: Object.keys(stats.value.categoryCounts).length,
+  },
+}));
 
 function goBack() {
   if (window.history.length > 1) {
@@ -299,44 +328,62 @@ function goToAdd() {
 }
 
 function deleteProduct(id) {
-  if (!isAdmin.value) return
+  if (!isAdmin.value) return;
   ElMessageBox.confirm("確定要刪除這個商品嗎？", "提示", {
     confirmButtonText: "確定",
     cancelButtonText: "取消",
-    type: "warning"
+    type: "warning",
   })
     .then(async () => {
       try {
-        await store.deleteProduct(id)
-        ElMessage.success("✅ 已刪除！")
+        await store.deleteProduct(id);
+        ElMessage.success("✅ 已刪除！");
       } catch (err) {
-        ElMessage.error("❌ 刪除失敗：" + (err.response?.data?.error || err.message))
+        ElMessage.error(
+          "❌ 刪除失敗：" + (err.response?.data?.error || err.message)
+        );
       }
     })
     .catch(() => {
-      ElMessage.info("已取消刪除")
-    })
+      ElMessage.info("已取消刪除");
+    });
 }
 
 function openEdit(row) {
-  if (!isAdmin.value) return
-  editForm.value = { ...row }
-  editDialogVisible.value = true
+  if (!isAdmin.value) return;
+  editForm.value = { ...row };
+  editDialogVisible.value = true;
 }
 
 async function updateProduct() {
   try {
-    await store.updateProduct(editForm.value.id, { ...editForm.value })
-    ElMessage.success("✅ 已更新！")
-    editDialogVisible.value = false
+    await store.updateProduct(editForm.value.id, { ...editForm.value });
+    ElMessage.success("✅ 已更新！");
+    editDialogVisible.value = false;
   } catch (err) {
-    ElMessage.error("❌ 更新失敗：" + (err.response?.data?.error || err.message))
+    ElMessage.error(
+      "❌ 更新失敗：" + (err.response?.data?.error || err.message)
+    );
   }
 }
 
 function handleUploadSuccess(response) {
   editForm.value.image = response.imageUrl;
   ElMessage.success("✅ 圖片已更新！");
+}
+
+function beforeUpload(file) {
+  const isImage = file.type.startsWith("image/");
+  const isLt2M = file.size / 1024 / 1024 < 2;
+
+  if (!isImage) {
+    ElMessage.error("只能上傳圖片格式！");
+  }
+  if (!isLt2M) {
+    ElMessage.error("圖片大小不能超過 2MB！");
+  }
+
+  return isImage && isLt2M;
 }
 </script>
 

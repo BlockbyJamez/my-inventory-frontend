@@ -9,7 +9,12 @@
       <h2 class="title">📝 請輸入商品資訊</h2>
 
       <!-- 桌面版表單 -->
-      <el-form v-if="!isMobile" :model="form" label-width="120px" class="product-form">
+      <el-form
+        v-if="!isMobile"
+        :model="form"
+        label-width="120px"
+        class="product-form"
+      >
         <el-form-item label="商品名稱">
           <el-input v-model="form.name" placeholder="請輸入商品名稱" />
         </el-form-item>
@@ -23,15 +28,29 @@
           <el-input-number v-model="form.stock" :min="1" />
         </el-form-item>
         <el-form-item label="描述">
-          <el-input type="textarea" v-model="form.description" placeholder="請輸入描述" />
+          <el-input
+            type="textarea"
+            v-model="form.description"
+            placeholder="請輸入描述"
+          />
         </el-form-item>
         <el-form-item label="上傳圖片">
-          <el-upload :action="uploadUrl" name="image" :show-file-list="false" :on-success="handleUploadSuccess">
+          <el-upload
+            :action="uploadUrl"
+            name="image"
+            :show-file-list="false"
+            :on-success="handleUploadSuccess"
+          >
             <el-button>選擇圖片</el-button>
           </el-upload>
         </el-form-item>
         <el-form-item label="預覽圖片">
-          <img v-if="form.image" :src="form.image" alt="預覽" class="thumbnail" />
+          <img
+            v-if="form.image"
+            :src="form.image"
+            alt="預覽"
+            class="thumbnail"
+          />
         </el-form-item>
       </el-form>
 
@@ -50,10 +69,20 @@
         <el-input-number v-model="form.stock" :min="1" />
 
         <label>描述</label>
-        <el-input type="textarea" v-model="form.description" placeholder="請輸入描述" />
+        <el-input
+          type="textarea"
+          v-model="form.description"
+          placeholder="請輸入描述"
+        />
 
         <label>上傳圖片</label>
-        <el-upload :action="uploadUrl" name="image" :show-file-list="false" :on-success="handleUploadSuccess">
+        <el-upload
+          :action="uploadUrl"
+          name="image"
+          :show-file-list="false"
+          :on-success="handleUploadSuccess"
+          :before-upload="beforeUpload"
+        >
           <el-button>選擇圖片</el-button>
         </el-upload>
 
@@ -73,77 +102,92 @@
 </template>
 
 <script setup>
-import { reactive, ref, onMounted, onBeforeUnmount } from 'vue'
-import { useRouter } from 'vue-router'
-import { useProductStore } from '@/stores/productStore'
-import { ElMessage } from 'element-plus'
+import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
+import { useRouter } from "vue-router";
+import { useProductStore } from "@/stores/productStore";
+import { ElMessage } from "element-plus";
 
-const uploadUrl = `${import.meta.env.VITE_API_BASE}/upload`
-const router = useRouter()
-const store = useProductStore()
-const isMobile = ref(false)
+const uploadUrl = `${import.meta.env.VITE_API_BASE}/upload`;
+const router = useRouter();
+const store = useProductStore();
+const isMobile = ref(false);
 
 const form = reactive({
-  name: '',
+  name: "",
   stock: 1,
   price: 0,
-  category: '',
-  description: '',
-  image: ''
-})
+  category: "",
+  description: "",
+  image: "",
+});
 
 function handleUploadSuccess(response) {
-  form.image = response.imageUrl
-  ElMessage.success('✅ 圖片已上傳並套用！')
+  form.image = response.imageUrl;
+  ElMessage.success("✅ 圖片已上傳並套用！");
+  console.log("📷 圖片上傳成功：", response.imageUrl);
+}
+
+function beforeUpload(file) {
+  const isImage = file.type.startsWith("image/");
+  const isLt2M = file.size / 1024 / 1024 < 2;
+
+  if (!isImage) {
+    ElMessage.error("只能上傳圖片格式！");
+  }
+  if (!isLt2M) {
+    ElMessage.error("圖片大小不能超過 2MB！");
+  }
+
+  return isImage && isLt2M;
 }
 
 async function addProduct() {
   if (!form.name.trim()) {
-    ElMessage.warning('請輸入商品名稱')
-    return
+    ElMessage.warning("請輸入商品名稱");
+    return;
   }
   if (form.stock <= 0) {
-    ElMessage.warning('庫存數量需大於 0')
-    return
+    ElMessage.warning("庫存數量需大於 0");
+    return;
   }
   if (form.price < 0) {
-    ElMessage.warning('價格不能小於 0')
-    return
+    ElMessage.warning("價格不能小於 0");
+    return;
   }
 
   try {
-    await store.addProduct({ ...form })
-    ElMessage.success('✅ 商品已新增！')
+    await store.addProduct({ ...form });
+    ElMessage.success("✅ 商品已新增！");
     Object.assign(form, {
-      name: '',
-      category: '',
+      name: "",
+      category: "",
       price: 0,
       stock: 1,
-      description: '',
-      image: ''
-    })
-    router.push('/products')
+      description: "",
+      image: "",
+    });
+    router.push("/products");
   } catch (err) {
-    ElMessage.error('❌ 新增失敗：' + (err.message || '伺服器錯誤'))
+    ElMessage.error("❌ 新增失敗：" + (err.message || "伺服器錯誤"));
   }
 }
 
 function goBack() {
-  router.back()
+  router.back();
 }
 
 function handleResize() {
-  isMobile.value = window.innerWidth <= 600
+  isMobile.value = window.innerWidth <= 600;
 }
 
 onMounted(() => {
-  handleResize()
-  window.addEventListener('resize', handleResize)
-})
+  handleResize();
+  window.addEventListener("resize", handleResize);
+});
 
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', handleResize)
-})
+  window.removeEventListener("resize", handleResize);
+});
 </script>
 
 <style scoped>
