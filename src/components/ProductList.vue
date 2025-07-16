@@ -161,6 +161,7 @@
             :show-file-list="false"
             :on-success="handleUploadSuccess"
             :before-upload="beforeUpload"
+            :headers="uploadHeaders"
           >
             <el-button>選擇圖片</el-button>
           </el-upload>
@@ -210,6 +211,10 @@ const pageSize = ref(5);
 
 const defaultSort = ref({ prop: "id", order: "ascending" });
 const currentSort = ref({ ...defaultSort.value });
+const uploadHeaders = {
+  "x-username": auth.user?.username || "unknown",
+  "x-role": auth.user?.role || "viewer",
+};
 
 const isMobile = ref(window.innerWidth <= 768);
 function handleResize() {
