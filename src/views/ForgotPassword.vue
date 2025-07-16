@@ -151,7 +151,7 @@ async function verifyCode() {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   try {
-    const res = await fetch(`${API}/api/verify-code`, {
+    const res = await fetch(`${API_BASE}/api/verify-code`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username: form.identifier, code: form.code }),
@@ -196,7 +196,7 @@ async function resetPassword() {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   try {
-    const res = await fetch(`${API}/api/reset-password`, {
+    const res = await fetch(`${API_BASE}/api/reset-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
