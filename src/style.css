@@ -158,3 +158,10 @@ body.is-mobile .el-input,
 body.is-mobile .el-select {
   font-size: 16px;
 }
+
+body.is-mobile input,
+body.is-mobile select,
+body.is-mobile textarea,
+body.is-mobile .el-input__inner {
+  font-size: 16px !important;
+}
