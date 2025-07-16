@@ -64,8 +64,6 @@ button {
 /* ================================
   桌面版樣式
 ================================ */
-body.is-desktop {
-}
 
 body.is-desktop .container {
   background: #fff;
