@@ -126,7 +126,7 @@ async function verifyAndRegister() {
     const result = await res.json();
     if (!res.ok) throw new Error(result.error || "註冊失敗");
 
-    ElMessage.success("🎉 註冊成功，請登入！");
+    ElMessage.success("🎉 註冊成功，歡迎加入！");
     router.push("/login");
   } catch (err) {
     ElMessage.error("❌ " + err.message);
