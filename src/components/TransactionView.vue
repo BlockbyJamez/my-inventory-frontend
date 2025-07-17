@@ -322,10 +322,6 @@ function goBack() {
   line-height: 1.6;
 }
 
-.el-col {
-  outline: 1px dashed red;
-}
-
 @media (max-width: 768px) {
   .title {
     font-size: 1.5rem;
