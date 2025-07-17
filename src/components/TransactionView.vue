@@ -63,34 +63,33 @@
     <!-- 篩選條件 -->
     <el-card class="main-card" shadow="always">
       <h2 class="title">🔍 篩選條件</h2>
-      <el-form :inline="false" label-position="top" :model="filter" class="filter-form">
-        <el-form-item label="商品">
-          <el-select
-            v-model="filter.product_id"
-            placeholder="全部商品"
-            class="full-width"
-          >
-            <el-option label="全部商品" :value="''" />
-            <el-option
-              v-for="p in products"
-              :key="p.id"
-              :label="p.name"
-              :value="p.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="類型">
-          <el-select v-model="filter.type" placeholder="全部" class="full-width">
-            <el-option label="全部" value="" />
-            <el-option label="入庫" value="in" />
-            <el-option label="出庫" value="out" />
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button class="full-width" @click="resetFilter">
-            清除篩選
-          </el-button>
-        </el-form-item>
+      <el-form :model="filter" label-position="top" class="filter-form">
+        <el-row :gutter="16" align="bottom">
+          <el-col :xs="24" :sm="24" :md="8">
+            <el-form-item label="商品">
+              <el-select v-model="filter.product_id" placeholder="全部商品" class="full-width">
+                <el-option label="全部商品" :value="''" />
+                <el-option v-for="p in products" :key="p.id" :label="p.name" :value="p.id" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="24" :md="8">
+            <el-form-item label="類型">
+              <el-select v-model="filter.type" placeholder="全部" class="full-width">
+                <el-option label="全部" value="" />
+                <el-option label="入庫" value="in" />
+                <el-option label="出庫" value="out" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="24" :md="8">
+            <el-form-item label="　"> <!-- 空白 label 對齊 -->
+              <el-button type="primary" class="full-width" @click="resetFilter">
+                清除篩選
+              </el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
     </el-card>
 
@@ -274,28 +273,6 @@ function goBack() {
   background-color: #ffffff;
   border: 1px solid #ebeef5;
   padding: 24px;
-}
-
-.filter-form {
-  margin-top: 0.5rem;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: flex-end;
-  gap: 12px;
-}
-
-.filter-form .el-form-item {
-  flex: 1 1 0%;
-  min-width: 180px;
-  margin-bottom: 0 !important;
-  display: flex;
-  flex-direction: column;
-}
-
-.filter-form .el-form-item .el-select,
-.filter-form .el-form-item .el-input,
-.filter-form .el-form-item .el-button {
-  width: 100%;
 }
 
 .full-width {
