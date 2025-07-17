@@ -276,7 +276,6 @@ function goBack() {
   padding: 24px;
 }
 
-/* 桌面版 filter-form 修正 */
 .filter-form {
   margin-top: 0.5rem;
   display: flex;
@@ -286,17 +285,19 @@ function goBack() {
 }
 
 .filter-form .el-form-item {
-  margin-bottom: 0;
-  flex: 1;
-  min-width: 160px;
+  flex: 1 1 0%;
+  min-width: 180px;
+  margin-bottom: 0 !important;
+  display: flex;
+  flex-direction: column;
 }
 
-.filter-form .el-button {
-  flex-shrink: 0;
-  height: 40px;
+.filter-form .el-form-item .el-select,
+.filter-form .el-form-item .el-input,
+.filter-form .el-form-item .el-button {
+  width: 100%;
 }
 
-/* 共用樣式 */
 .full-width {
   width: 100%;
 }
