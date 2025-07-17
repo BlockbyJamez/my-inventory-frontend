@@ -359,7 +359,7 @@ function goBack() {
   .filter-form .el-form-item .el-select,
   .filter-form .el-form-item .el-input,
   .filter-form .el-form-item .el-button {
-    width: 100%;
+    width: 100% !important;
   }
 }
 
