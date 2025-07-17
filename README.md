@@ -8,6 +8,7 @@
 
 ## 📁 專案結構
 
+```
 my-inventory-app/
 ├─ backend/ # Node.js + Express API
 ├─ frontend/ # Vue 3 + Vite 前端專案
@@ -15,6 +16,7 @@ my-inventory-app/
 ├─ package.json # 一鍵啟動前後端
 ├─ package-lock.json
 ├─ uploads/ # 圖片上傳目錄 (自動產生)
+```
 
 ---
 
@@ -37,20 +39,3 @@ my-inventory-app/
 - [ ] 進階搜尋 / 篩選條件
 
 ---
-
-## ⚡️ 快速開始
-
-### 1️⃣ 安裝依賴
-
-```bash
-# 安裝根目錄開發工具
-npm install
-
-# 安裝前端
-cd frontend
-npm install
-
-# 安裝後端
-cd ../backend
-npm install
-```
