@@ -341,6 +341,28 @@ function goBack() {
   line-height: 1.6;
 }
 
+@media (min-width: 769px) {
+  .filter-form {
+    display: flex;
+    gap: 16px;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+  }
+
+  .filter-form .el-form-item {
+    flex: 1 1 0%;
+    margin-bottom: 0 !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .filter-form .el-form-item .el-select,
+  .filter-form .el-form-item .el-input,
+  .filter-form .el-form-item .el-button {
+    width: 100%;
+  }
+}
+
 /* 📱 手機版 RWD 補強 */
 @media (max-width: 768px) {
   .title {
