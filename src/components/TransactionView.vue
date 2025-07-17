@@ -101,7 +101,11 @@
       <!-- 桌面版表格 -->
       <div class="table-wrapper" v-if="!isMobile">
         <el-table :data="filteredTransactions" border stripe style="width: 100%">
-          <el-table-column prop="timestamp" label="時間" width="180" />
+          <el-table-column prop="timestamp" label="時間" width="180">
+            <template #default="{ row }">
+              {{ formatTaiwanTime(row.timestamp) }}
+            </template>
+          </el-table-column>
           <el-table-column prop="product_name" label="商品" />
           <el-table-column prop="type" label="類型" width="80">
             <template #default="{ row }">
@@ -119,7 +123,7 @@
       <!-- 手機版卡片 -->
       <div class="transaction-cards" v-else>
         <div v-for="row in filteredTransactions" :key="row.id" class="transaction-card">
-          <div><strong>時間：</strong>{{ row.timestamp }}</div>
+          <div><strong>時間：</strong>{{ formatTaiwanTime(row.timestamp) }}</div>
           <div><strong>商品：</strong>{{ row.product_name }}</div>
           <div>
             <strong>類型：</strong>
@@ -175,6 +179,12 @@ const filteredTransactions = computed(() => {
 function resetFilter() {
   filter.value.product_id = "";
   filter.value.type = "";
+}
+
+function formatTaiwanTime(utcString) {
+  if (!utcString) return '-'
+  const date = new Date(utcString)
+  return date.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })
 }
 
 async function fetchProducts() {
