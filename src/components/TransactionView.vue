@@ -276,13 +276,27 @@ function goBack() {
   padding: 24px;
 }
 
+/* 桌面版 filter-form 修正 */
 .filter-form {
   margin-top: 0.5rem;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: flex-end;
   gap: 12px;
 }
 
+.filter-form .el-form-item {
+  margin-bottom: 0;
+  flex: 1;
+  min-width: 160px;
+}
+
+.filter-form .el-button {
+  flex-shrink: 0;
+  height: 40px;
+}
+
+/* 共用樣式 */
 .full-width {
   width: 100%;
 }
@@ -326,6 +340,7 @@ function goBack() {
   line-height: 1.6;
 }
 
+/* 📱 手機版 RWD 補強 */
 @media (max-width: 768px) {
   .title {
     font-size: 1.5rem;
@@ -338,7 +353,7 @@ function goBack() {
 
   .filter-form {
     flex-direction: column;
-    gap: 16px;
+    flex-wrap: wrap;
   }
 
   .el-form-item {
