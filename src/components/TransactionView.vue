@@ -63,7 +63,7 @@
     <!-- 篩選條件 -->
     <el-card class="main-card" shadow="always">
       <h2 class="title">🔍 篩選條件</h2>
-      <el-form :model="filter" label-position="top" class="filter-form">
+      <el-form :model="filter" label-position="top">
         <el-row :gutter="16" align="bottom">
           <el-col :xs="24" :sm="24" :md="8">
             <el-form-item label="商品">
@@ -83,7 +83,7 @@
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="24" :md="8">
-            <el-form-item label="　"> <!-- 空白 label 對齊 -->
+            <el-form-item label="　">
               <el-button type="primary" class="full-width" @click="resetFilter">
                 清除篩選
               </el-button>
@@ -318,26 +318,8 @@ function goBack() {
   line-height: 1.6;
 }
 
-@media (min-width: 769px) {
-  .filter-form {
-    display: flex;
-    gap: 16px;
-    flex-wrap: nowrap;
-    align-items: flex-end;
-  }
-
-  .filter-form .el-form-item {
-    flex: 1 1 0%;
-    margin-bottom: 0 !important;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .filter-form .el-form-item .el-select,
-  .filter-form .el-form-item .el-input,
-  .filter-form .el-form-item .el-button {
-    width: 100% !important;
-  }
+.el-col {
+  outline: 1px dashed red;
 }
 
 /* 📱 手機版 RWD 補強 */
