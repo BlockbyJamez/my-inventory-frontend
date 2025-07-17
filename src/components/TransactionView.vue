@@ -237,6 +237,10 @@ function goBack() {
 </script>
 
 <style scoped>
+.filter-form {
+  all: unset !important;
+}
+
 .transaction-page {
   max-width: 1000px;
   margin: 40px auto;
@@ -322,7 +326,6 @@ function goBack() {
   outline: 1px dashed red;
 }
 
-/* 📱 手機版 RWD 補強 */
 @media (max-width: 768px) {
   .title {
     font-size: 1.5rem;
@@ -331,11 +334,6 @@ function goBack() {
   .main-card {
     padding: 16px;
     border-radius: 12px;
-  }
-
-  .filter-form {
-    flex-direction: column;
-    flex-wrap: wrap;
   }
 
   .el-form-item {
