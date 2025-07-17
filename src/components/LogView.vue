@@ -24,7 +24,11 @@
 
       <!-- 桌面版 Table -->
       <el-table v-if="!isMobile" :data="filteredLogs" style="width: 100%" border stripe>
-        <el-table-column prop="timestamp" label="時間" width="180" />
+        <el-table-column prop="timestamp" label="時間" width="180">
+          <template #default="{ row }">
+            {{ formatTaiwanTime(row.timestamp) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="username" label="操作人" width="120" />
         <el-table-column prop="action" label="操作行為" width="150" />
         <el-table-column label="細節">
@@ -43,7 +47,7 @@
       <!-- 📱 手機版卡片 -->
       <div v-else class="log-cards">
         <div v-for="row in filteredLogs" :key="row.id" class="log-card">
-          <div><strong>時間：</strong>{{ row.timestamp }}</div>
+          <div><strong>時間：</strong>{{ formatTaiwanTime(row.timestamp) }}</div>
           <div><strong>操作人：</strong>{{ row.username }}</div>
           <div><strong>行為：</strong>{{ row.action }}</div>
           <div><strong>細節：</strong>{{ summarize(row) }}</div>
@@ -78,6 +82,12 @@ window.addEventListener('resize', () => {
 
 function goBack() {
   router.push('/')
+}
+
+function formatTaiwanTime(utcString) {
+  if (!utcString) return '-'
+  const date = new Date(utcString)
+  return date.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })
 }
 
 function formatDetails(details) {
