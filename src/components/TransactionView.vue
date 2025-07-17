@@ -63,7 +63,7 @@
     <!-- 篩選條件 -->
     <el-card class="main-card" shadow="always">
       <h2 class="title">🔍 篩選條件</h2>
-      <el-form :model="filter" label-position="top">
+      <el-form :model="filter" label-position="top" class="filter-form">
         <el-row :gutter="16" align="bottom">
           <el-col :xs="24" :sm="24" :md="8">
             <el-form-item label="商品">
