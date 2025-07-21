@@ -113,8 +113,8 @@ const fetchChart = async () => {
     const data = await res.json();
 
     chartData.value.labels = data.map((item) => item.date);
-    chartData.value.datasets[0].data = data.map((item) => item.stockin);
-    chartData.value.datasets[1].data = data.map((item) => item.stockout);
+    chartData.value.datasets[0].data = data.map((item) => Number(item.stockin));
+    chartData.value.datasets[1].data = data.map((item) => Number(item.stockout));
   } catch (err) {
     console.error("趨勢圖資料錯誤", err);
     ElMessage.error("無法載入趨勢圖資料");
@@ -132,6 +132,12 @@ onMounted(() => {
   padding: 24px;
   background: #f6f7f9;
   min-height: 100vh;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 .main-card {
   max-width: 1080px;
