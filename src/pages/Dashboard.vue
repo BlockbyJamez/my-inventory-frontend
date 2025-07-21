@@ -116,6 +116,8 @@ const fetchChart = async () => {
     chartData.value.labels = data.map((item) => item.date);
     chartData.value.datasets[0].data = data.map((item) => Number(item.stockin));
     chartData.value.datasets[1].data = data.map((item) => Number(item.stockout));
+
+    console.log("📊 chartData:", chartData.value);
   } catch (err) {
     console.error("趨勢圖資料錯誤", err);
     ElMessage.error("無法載入趨勢圖資料");
