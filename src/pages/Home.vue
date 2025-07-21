@@ -29,6 +29,15 @@
       </el-card>
 
       <el-card
+        class="menu-card"
+        shadow="hover"
+        @click="$router.push('/dashboard')"
+      >
+        <div class="card-icon">📊</div>
+        <div class="card-text">儀表板</div>
+      </el-card>
+
+      <el-card
         v-if="authStore.user?.role === 'admin'"
         class="menu-card"
         shadow="hover"

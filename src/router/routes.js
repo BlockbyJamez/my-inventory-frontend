@@ -9,17 +9,19 @@ import ProductForm from "@/pages/ProductForm.vue";
 import TransactionView from "@/pages/TransactionView.vue";
 import PermissionView from "@/pages/PermissionView.vue";
 import LogView from "@/pages/LogView.vue";
+import Dashboard from "@/pages/Dashboard.vue";
 
 const routes = [
   { path: "/login", name: "Login", component: LoginView },
   { path: "/register", name: "Register", component: RegisterView },
   { path: "/forgot-password", component: ForgotPassword },
-  { path: "/", name: "Home", component: Home, meta: { requiresAuth: true } },
+  { path: "/", name: "Home", component: Home, meta: { requiresAuth: true }, },
   { path: "/products", name: "ProductList", component: ProductList, meta: { requiresAuth: true }, },
   { path: "/add", name: "ProductForm", component: ProductForm, meta: { requiresAuth: true, requiresAdmin: true }, },
   { path: "/transactions", name: "TransactionView", component: TransactionView, meta: { requiresAuth: true }, },
   { path: "/permissions", component: PermissionView },
   { path: "/logs", component: LogView },
+  { path: "/dashboard", name: "Dashboard", component: Dashboard, meta: { requiresAuth: true }, },
 ];
 
 const router = createRouter({
