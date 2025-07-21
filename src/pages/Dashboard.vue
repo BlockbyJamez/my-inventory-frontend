@@ -49,8 +49,12 @@ ChartJS.register(
   Filler
 );
 
-const router = useRouter();
-const goBack = () => router.back();
+const router = useRouter()
+
+function goBack() {
+  router.push('/')
+}
+
 const stats = ref([]);
 const chartData = ref({
   labels: [],
