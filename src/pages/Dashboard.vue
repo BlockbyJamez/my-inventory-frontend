@@ -30,9 +30,10 @@ import {
   PointElement,
   CategoryScale,
   LinearScale,
+  Filler,
 } from "chart.js";
 
-ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale);
+ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale,  Filler);
 
 const stats = ref([]);
 const chartData = ref({
