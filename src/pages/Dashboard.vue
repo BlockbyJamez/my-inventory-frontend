@@ -10,14 +10,64 @@
         </el-card>
       </el-col>
     </el-row>
+
+    <div class="chart-container">
+      <Line :data="chartData" :options="chartOptions" />
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
+import { Line } from "vue-chartjs";
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+} from "chart.js";
+
+ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale);
 
 const stats = ref([]);
+const chartData = ref({
+  labels: [],
+  datasets: [
+    {
+      label: "入庫數量",
+      data: [],
+      borderColor: "#67c23a",
+      backgroundColor: "rgba(103, 194, 58, 0.3)",
+      fill: true,
+      tension: 0.3,
+    },
+    {
+      label: "出庫數量",
+      data: [],
+      borderColor: "#f56c6c",
+      backgroundColor: "rgba(245, 108, 108, 0.3)",
+      fill: true,
+      tension: 0.3,
+    },
+  ],
+});
+const chartOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top",
+    },
+    title: {
+      display: true,
+      text: "📈 最近 7 日出入庫數量趨勢",
+    },
+  },
+};
 
 const fetchSummary = async () => {
   try {
@@ -36,8 +86,23 @@ const fetchSummary = async () => {
   }
 };
 
+const fetchChart = async () => {
+  try {
+    const res = await fetch("https://my-inventory-backend-lyte.onrender.com/dashboard/weekly-summary");
+    const data = await res.json();
+
+    chartData.value.labels = data.map((item) => item.date);
+    chartData.value.datasets[0].data = data.map((item) => item.stockin);
+    chartData.value.datasets[1].data = data.map((item) => item.stockout);
+  } catch (err) {
+    console.error("趨勢圖資料錯誤", err);
+    ElMessage.error("無法載入趨勢圖資料");
+  }
+};
+
 onMounted(() => {
   fetchSummary();
+  fetchChart();
 });
 </script>
 
@@ -70,5 +135,12 @@ onMounted(() => {
   font-size: 2rem;
   color: #cc5500;
   font-weight: bold;
+}
+.chart-container {
+  margin-top: 40px;
+  background: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.06);
 }
 </style>
