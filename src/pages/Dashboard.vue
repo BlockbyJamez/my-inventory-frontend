@@ -79,6 +79,7 @@ const chartData = ref({
 });
 const chartOptions = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       position: "top",
@@ -170,6 +171,8 @@ onMounted(() => {
   font-weight: bold;
 }
 .chart-container {
+  height: 400px;
+  position: relative;
   background: #fff;
   padding: 24px;
   border-radius: 16px;
