@@ -1,19 +1,21 @@
 <template>
-  <div class="dashboard-container">
-    <h2 class="title">📊 庫存儀表板</h2>
+  <div class="dashboard-page">
+    <el-card class="main-card" shadow="always">
+      <h2 class="title">📊 庫存儀表板</h2>
 
-    <el-row :gutter="20" class="card-group">
-      <el-col :xs="24" :sm="12" :md="8" v-for="item in stats" :key="item.label">
-        <el-card shadow="hover" class="stat-card">
-          <h3>{{ item.label }}</h3>
-          <p class="value">{{ item.value }}</p>
-        </el-card>
-      </el-col>
-    </el-row>
+      <el-row :gutter="20" class="card-group">
+        <el-col :xs="24" :sm="12" :md="8" v-for="item in stats" :key="item.label">
+          <el-card shadow="hover" class="stat-card">
+            <h3>{{ item.label }}</h3>
+            <p class="value">{{ item.value }}</p>
+          </el-card>
+        </el-col>
+      </el-row>
 
-    <div class="chart-container">
-      <Line :data="chartData" :options="chartOptions" />
-    </div>
+      <div class="chart-container">
+        <Line :data="chartData" :options="chartOptions" />
+      </div>
+    </el-card>
   </div>
 </template>
 
@@ -33,7 +35,16 @@ import {
   Filler,
 } from "chart.js";
 
-ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale,  Filler);
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Filler
+);
 
 const stats = ref([]);
 const chartData = ref({
@@ -108,18 +119,24 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.dashboard-container {
+.dashboard-page {
+  padding: 24px;
+  background: #f6f7f9;
+  min-height: 100vh;
+}
+.main-card {
   max-width: 1080px;
   margin: auto;
   padding: 24px;
+  border-radius: 12px;
 }
 .title {
   font-size: 1.8rem;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   color: #333;
 }
 .card-group {
-  margin-top: 20px;
+  margin-bottom: 40px;
 }
 .stat-card {
   text-align: center;
@@ -138,7 +155,6 @@ onMounted(() => {
   font-weight: bold;
 }
 .chart-container {
-  margin-top: 40px;
   background: #fff;
   padding: 24px;
   border-radius: 16px;
