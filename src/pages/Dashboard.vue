@@ -1,7 +1,9 @@
 <template>
   <div class="dashboard-page">
     <el-card class="main-card" shadow="always">
-      <h2 class="title">📊 庫存儀表板</h2>
+      <div class="header">
+        <el-page-header content="📊 庫存儀表板" @back="goBack" />
+      </div>
 
       <el-row :gutter="20" class="card-group">
         <el-col :xs="24" :sm="12" :md="8" v-for="item in stats" :key="item.label">
@@ -23,6 +25,7 @@
 import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import { Line } from "vue-chartjs";
+import { useRouter } from "vue-router";
 import {
   Chart as ChartJS,
   Title,
@@ -46,6 +49,8 @@ ChartJS.register(
   Filler
 );
 
+const router = useRouter();
+const goBack = () => router.back();
 const stats = ref([]);
 const chartData = ref({
   labels: [],
