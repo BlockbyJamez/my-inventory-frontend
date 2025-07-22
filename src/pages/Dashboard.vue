@@ -152,48 +152,72 @@ onMounted(() => {
   background: #f6f7f9;
   min-height: 100vh;
 }
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
+
 .main-card {
   max-width: 1080px;
   margin: auto;
   padding: 24px;
   border-radius: 12px;
 }
-.title {
-  font-size: 1.8rem;
-  margin-bottom: 24px;
-  color: #333;
-}
+
 .card-group {
   margin-bottom: 40px;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 16px;
+  padding-bottom: 8px;
 }
+
 .stat-card {
+  min-width: 220px;
   text-align: center;
   padding: 16px;
   border-radius: 12px;
   background: #fdfdfd;
+  flex-shrink: 0;
 }
+
 .stat-card h3 {
   font-size: 1.2rem;
   color: #666;
   margin-bottom: 8px;
 }
+
 .stat-card .value {
   font-size: 2rem;
   color: #cc5500;
   font-weight: bold;
 }
+
 .chart-container {
-  height: 400px;
-  position: relative;
+  height: auto;
+  min-height: 320px;
   background: #fff;
   padding: 24px;
   border-radius: 16px;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .main-card {
+    padding: 16px;
+  }
+
+  .chart-container {
+    padding: 16px;
+  }
+
+  .stat-card .value {
+    font-size: 1.6rem;
+  }
 }
 </style>
