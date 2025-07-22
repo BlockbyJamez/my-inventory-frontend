@@ -12,6 +12,8 @@
 
 <img src="./public/qr-code.png" width="180" />
 
+快速 DEMO 範例帳號 / 密碼： admin / 1234
+
 🌐 網址：[https://blockbyjamez.github.io/my-inventory-frontend/](https://blockbyjamez.github.io/my-inventory-frontend/)
 
 ---
