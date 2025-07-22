@@ -2,7 +2,7 @@
 
 一套完整的 **前後端分離庫存管理系統**  
 前端：`Vue 3 + Vite + Pinia + Element Plus`  
-後端：`Node.js + Express + PostgreSQL`（支援 SQLite 開發、PostgreSQL 雲端部署）
+後端：`Node.js + Express + PostgreSQL`
 
 ---
 
@@ -18,7 +18,7 @@
 
 ## ✅ 已完成功能
 
-- ✔️ **使用者登入 / 權限管理（admin / viewer）**
+- ✔️ **使用者登入 / 權限管理（admin / viewer）/權限功能頁分層**
 - ✔️ **商品管理**（CRUD、圖片上傳、分類篩選、分頁、即時搜尋）
 - ✔️ **出入庫管理**（庫存異動記錄、自動計算庫存）
 - ✔️ **操作紀錄查詢**（包含登入、交易紀錄等）
