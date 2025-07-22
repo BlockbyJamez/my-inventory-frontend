@@ -10,7 +10,7 @@
 
 📱 手機掃碼快速體驗：
 
-<img src="./public/qrcode.png" width="180" />
+<img src="./public/qr-code.png" width="180" />
 
 🌐 網址：[https://my-inventory-frontend-lyte.onrender.com/demo](https://my-inventory-frontend-lyte.onrender.com/demo)
 
