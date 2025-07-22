@@ -35,9 +35,9 @@
 my-inventory-frontend/
 ├── public/
 │   └── vite.svg
-│   └── qrcode.png          # 線上 Demo 專用 QR Code
+│   └── qrcode.png
 ├── src/
-│   ├── assets/             # 靜態圖片或樣式資源
+│   ├── assets/
 │   ├── pages/              # 功能頁面
 │   │   ├── Dashboard.vue
 │   │   ├── Home.vue
@@ -59,7 +59,7 @@ my-inventory-frontend/
 │   ├── main.js
 │   └── style.css           # 全域樣式
 ├── index.html
-├── .env.production         # 生產環境變數
+├── .env.production
 ├── vite.config.js
 ├── package.json
 └── README.md
