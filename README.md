@@ -12,7 +12,7 @@
 
 <img src="./public/qr-code.png" width="180" />
 
-🌐 網址：[https://my-inventory-frontend-lyte.onrender.com/demo](https://my-inventory-frontend-lyte.onrender.com/demo)
+🌐 網址：[https://blockbyjamez.github.io/my-inventory-frontend/](https://blockbyjamez.github.io/my-inventory-frontend/)
 
 ---
 
