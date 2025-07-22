@@ -113,11 +113,27 @@ const fetchChart = async () => {
     const res = await fetch("https://my-inventory-backend-lyte.onrender.com/dashboard/weekly-summary");
     const data = await res.json();
 
-    chartData.value.labels = data.map((item) => item.date);
-    chartData.value.datasets[0].data = data.map((item) => Number(item.stockin));
-    chartData.value.datasets[1].data = data.map((item) => Number(item.stockout));
-
-    console.log("📊 chartData:", chartData.value);
+    chartData.value = {
+      labels: data.map((item) => item.date),
+      datasets: [
+        {
+          label: "入庫數量",
+          data: data.map((item) => Number(item.stockin)),
+          borderColor: "#67c23a",
+          backgroundColor: "rgba(103, 194, 58, 0.3)",
+          fill: true,
+          tension: 0.3,
+        },
+        {
+          label: "出庫數量",
+          data: data.map((item) => Number(item.stockout)),
+          borderColor: "#f56c6c",
+          backgroundColor: "rgba(245, 108, 108, 0.3)",
+          fill: true,
+          tension: 0.3,
+        },
+      ],
+    };
   } catch (err) {
     console.error("趨勢圖資料錯誤", err);
     ElMessage.error("無法載入趨勢圖資料");
