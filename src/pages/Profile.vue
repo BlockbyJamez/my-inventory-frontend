@@ -1,6 +1,6 @@
 <template>
   <div class="profile-page">
-    <el-card v-if="user.value" class="profile-card" shadow="always">
+    <el-card class="profile-card" shadow="always">
       <h2>👤 個人設定</h2>
 
       <el-descriptions :column="1" border>
@@ -36,7 +36,7 @@ import { useAuthStore } from "@/stores/authStore";
 
 const authStore = useAuthStore();
 
-// 👉 若 authStore.user 是 null，從 localStorage 補資料
+// 嘗試從 localStorage 補登入資訊
 if (!authStore.user) {
   const storedUser = {
     username: localStorage.getItem("username"),
@@ -48,7 +48,12 @@ if (!authStore.user) {
   }
 }
 
-const user = computed(() => authStore.user);
+// fallback: user 一定會有預設值，避免 null 錯誤
+const user = computed(() => authStore.user ?? {
+  username: '',
+  email: '',
+  role: '',
+});
 
 const form = reactive({
   oldPassword: "",
