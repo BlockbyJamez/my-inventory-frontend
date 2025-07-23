@@ -11,11 +11,20 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     login(userData) {
-      this.user = userData
+      this.user = {
+        username: userData.username,
+        role: userData.role,
+        email: userData.email,
+      };
+      localStorage.setItem("username", userData.username);
+      localStorage.setItem("role", userData.role);
+      localStorage.setItem("email", userData.email);
     },
     logout() {
-      this.user = null
+      this.user = null;
+      localStorage.removeItem("username");
+      localStorage.removeItem("role");
+      localStorage.removeItem("email");
     },
   },
 })
-//

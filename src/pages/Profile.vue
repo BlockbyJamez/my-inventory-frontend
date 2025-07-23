@@ -4,9 +4,9 @@
       <h2>👤 個人設定</h2>
 
       <el-descriptions :column="1" border>
-        <el-descriptions-item label="帳號">{{ user.username }}</el-descriptions-item>
-        <el-descriptions-item label="信箱">{{ user.email }}</el-descriptions-item>
-        <el-descriptions-item label="身分">{{ user.role }}</el-descriptions-item>
+        <el-descriptions-item label="帳號">{{ user.value.username }}</el-descriptions-item>
+        <el-descriptions-item label="信箱">{{ user.value.email }}</el-descriptions-item>
+        <el-descriptions-item label="身分">{{ user.value.role }}</el-descriptions-item>
       </el-descriptions>
 
       <el-divider>修改密碼</el-divider>
@@ -30,15 +30,25 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 import { ElMessage } from "element-plus";
+import { useAuthStore } from "@/stores/authStore";
 
-// 模擬取得登入資訊（實務上從 store 或 localStorage 拿）
-const user = {
-  username: localStorage.getItem("username"),
-  role: localStorage.getItem("role"),
-  email: "your@email.com", // 若有登入後取得 profile API 可補上
-};
+const authStore = useAuthStore();
+
+// 👉 若 authStore.user 是 null，從 localStorage 補資料
+if (!authStore.user) {
+  const storedUser = {
+    username: localStorage.getItem("username"),
+    role: localStorage.getItem("role"),
+    email: localStorage.getItem("email"),
+  };
+  if (storedUser.username && storedUser.role && storedUser.email) {
+    authStore.login(storedUser);
+  }
+}
+
+const user = computed(() => authStore.user);
 
 const form = reactive({
   oldPassword: "",
@@ -61,8 +71,8 @@ const submitPassword = async () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "x-username": user.username,
-        "x-role": user.role,
+        "x-username": user.value.username,
+        "x-role": user.value.role,
       },
       body: JSON.stringify({
         oldPassword: form.oldPassword,
