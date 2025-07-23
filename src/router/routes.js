@@ -10,6 +10,7 @@ import TransactionView from "@/pages/TransactionView.vue";
 import PermissionView from "@/pages/PermissionView.vue";
 import LogView from "@/pages/LogView.vue";
 import Dashboard from "@/pages/Dashboard.vue";
+import Profile from "@/pages/Profile.vue";
 
 const routes = [
   { path: "/login", name: "Login", component: LoginView },
@@ -22,6 +23,7 @@ const routes = [
   { path: "/permissions", component: PermissionView },
   { path: "/logs", component: LogView },
   { path: "/dashboard", name: "Dashboard", component: Dashboard, meta: { requiresAuth: true }, },
+  { path: "/profile", name: "Profile", component: Profile },
 ];
 
 const router = createRouter({
