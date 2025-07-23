@@ -36,7 +36,6 @@ import { useAuthStore } from "@/stores/authStore";
 
 const authStore = useAuthStore();
 
-// 嘗試從 localStorage 補登入資訊
 if (!authStore.user) {
   const storedUser = {
     username: localStorage.getItem("username"),
@@ -48,7 +47,6 @@ if (!authStore.user) {
   }
 }
 
-// fallback: user 一定會有預設值，避免 null 錯誤
 const user = computed(() => authStore.user ?? {
   username: '',
   email: '',

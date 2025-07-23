@@ -22,7 +22,6 @@
 
       <h2 class="title">📋 操作紀錄一覽</h2>
 
-      <!-- 桌面版 Table -->
       <el-table v-if="!isMobile" :data="filteredLogs" style="width: 100%" border stripe>
         <el-table-column prop="timestamp" label="時間" width="180">
           <template #default="{ row }">
@@ -44,7 +43,6 @@
         </el-table-column>
       </el-table>
 
-      <!-- 📱 手機版卡片 -->
       <div v-else class="log-cards">
         <div v-for="row in filteredLogs" :key="row.id" class="log-card">
           <div><strong>時間：</strong>{{ formatTaiwanTime(row.timestamp) }}</div>
@@ -198,7 +196,6 @@ document.querySelectorAll('input, textarea, select').forEach((el) => {
   line-height: 1.4;
 }
 
-/* 📱 手機版 RWD 卡片樣式 */
 .log-cards {
   display: flex;
   flex-direction: column;

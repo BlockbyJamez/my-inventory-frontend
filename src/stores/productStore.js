@@ -1,5 +1,3 @@
-// src/stores/productStore.js
-
 import { defineStore } from "pinia";
 import axios from "axios";
 import { ElMessage } from "element-plus";

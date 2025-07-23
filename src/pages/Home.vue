@@ -148,7 +148,6 @@ function handleLogout() {
   color: #f56c6c;
 }
 
-/* 📱 手機版 RWD */
 body.is-mobile .home-container {
   padding: 1.2rem 1rem;
 }

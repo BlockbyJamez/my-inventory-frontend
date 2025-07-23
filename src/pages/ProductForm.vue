@@ -1,14 +1,12 @@
 <template>
   <div class="product-form-page">
     <el-card class="main-card" shadow="always">
-      <!-- 📦 標題列 -->
       <div class="header">
         <el-page-header content="📦 新增商品" @back="goBack" />
       </div>
 
       <h2 class="title">📝 請輸入商品資訊</h2>
 
-      <!-- 桌面版表單 -->
       <el-form
         v-if="!isMobile"
         :model="form"
@@ -54,7 +52,6 @@
         </el-form-item>
       </el-form>
 
-      <!-- 手機版表單 -->
       <div v-else class="mobile-form">
         <label>商品名稱</label>
         <el-input v-model="form.name" placeholder="請輸入商品名稱" />
@@ -90,7 +87,6 @@
         <img v-if="form.image" :src="form.image" alt="預覽" class="thumbnail" />
       </div>
 
-      <!-- 通用按鈕區 -->
       <div class="action-bar">
         <div class="button-wrap">
           <el-button type="primary" @click="addProduct">➕ 新增</el-button>

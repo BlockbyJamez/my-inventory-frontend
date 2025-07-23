@@ -1,13 +1,11 @@
 <template>
   <div class="product-list-page">
     <el-card class="main-card" shadow="always">
-      <!-- Header + Title -->
       <div class="header">
         <el-page-header content="📊 商品庫存管理" @back="goBack" />
       </div>
       <h2 class="title">📋 商品列表與管理</h2>
 
-      <!-- 統計卡片 -->
       <div class="stat-cards">
         <div class="stat-card" v-for="(item, key) in statDisplay" :key="key">
           <div class="stat-title">{{ item.label }}</div>
@@ -15,7 +13,6 @@
         </div>
       </div>
 
-      <!-- 分類統計 -->
       <details class="category-summary">
         <summary>
           🏷️ 分類統計（共 {{ Object.keys(stats.categoryCounts).length }} 類）
@@ -31,7 +28,6 @@
         </div>
       </details>
 
-      <!-- 搜尋列 -->
       <div class="action-bar">
         <el-input
           v-model="searchText"
@@ -57,7 +53,6 @@
         </el-button>
       </div>
 
-      <!-- 桌面版表格 / 手機版卡片切換 -->
       <div v-if="!isMobile">
         <el-table
           :data="paginatedData"
@@ -101,7 +96,6 @@
         </el-table>
       </div>
 
-      <!-- 手機版卡片 -->
       <div v-else class="product-card-list">
         <div v-for="item in paginatedData" :key="item.id" class="product-card">
           <img
@@ -126,7 +120,6 @@
         </div>
       </div>
 
-      <!-- 分頁器 -->
       <el-pagination
         v-model:current-page="currentPage"
         :page-size="pageSize"
@@ -136,7 +129,6 @@
       />
     </el-card>
 
-    <!-- 編輯 Dialog 保持不包在 card 內 -->
     <el-dialog v-model="editDialogVisible" title="編輯商品" width="500px">
       <el-form :model="editForm" label-width="120px">
         <el-form-item label="商品名稱">

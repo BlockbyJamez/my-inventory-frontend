@@ -60,7 +60,6 @@
       </el-form>
     </el-card>
 
-    <!-- 篩選條件 -->
     <el-card class="main-card" shadow="always">
       <h2 class="title">🔍 篩選條件</h2>
       <el-form :model="filter" label-position="top" class="filter-form">
@@ -93,11 +92,9 @@
       </el-form>
     </el-card>
 
-    <!-- 交易紀錄 -->
     <el-card class="main-card" shadow="always">
       <h2 class="title">📑 最近交易紀錄</h2>
 
-      <!-- 桌面版表格 -->
       <div class="table-wrapper" v-if="!isMobile">
         <el-table :data="filteredTransactions" border stripe style="width: 100%">
           <el-table-column prop="timestamp" label="時間" width="180">
@@ -119,7 +116,6 @@
         </el-table>
       </div>
 
-      <!-- 手機版卡片 -->
       <div class="transaction-cards" v-else>
         <div v-for="row in filteredTransactions" :key="row.id" class="transaction-card">
           <div><strong>時間：</strong>{{ formatTaiwanTime(row.timestamp) }}</div>
