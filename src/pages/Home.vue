@@ -57,6 +57,15 @@
         <div class="card-text">權限管理</div>
       </el-card>
 
+      <el-card
+        class="menu-card"
+        shadow="hover"
+        @click="$router.push('/profile')"
+      >
+        <div class="card-icon">👤</div>
+        <div class="card-text">個人設定</div>
+      </el-card>
+
       <el-card class="menu-card logout" shadow="hover" @click="handleLogout">
         <div class="card-icon">🚪</div>
         <div class="card-text">登出</div>
