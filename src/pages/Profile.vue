@@ -1,6 +1,6 @@
 <template>
   <div class="profile-page">
-    <el-card class="profile-card" shadow="always">
+    <el-card v-if="user.value" class="profile-card" shadow="always">
       <h2>👤 個人設定</h2>
 
       <el-descriptions :column="1" border>
