@@ -45,6 +45,7 @@ my-inventory-frontend/
 │   │   ├── PermissionView.vue
 │   │   ├── ProductForm.vue
 │   │   ├── ProductList.vue
+│   │   ├── Profile.vue
 │   │   └── TransactionView.vue
 │   ├── router/
 │   │   └── routes.js       # Vue Router 設定
