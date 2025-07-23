@@ -3,10 +3,10 @@
     <el-card class="profile-card" shadow="always">
       <h2>👤 個人設定</h2>
 
-      <el-descriptions :column="1" border>
-        <el-descriptions-item label="帳號">{{ user.value.username }}</el-descriptions-item>
-        <el-descriptions-item label="信箱">{{ user.value.email }}</el-descriptions-item>
-        <el-descriptions-item label="身分">{{ user.value.role }}</el-descriptions-item>
+      <el-descriptions v-if="user.value.username" :column="1" border>
+      <el-descriptions-item label="帳號">{{ user.value.username }}</el-descriptions-item>
+      <el-descriptions-item label="信箱">{{ user.value.email }}</el-descriptions-item>
+      <el-descriptions-item label="身分">{{ user.value.role }}</el-descriptions-item>
       </el-descriptions>
 
       <el-divider>修改密碼</el-divider>
