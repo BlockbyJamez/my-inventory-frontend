@@ -3,10 +3,10 @@
     <el-card class="profile-card" shadow="always">
       <h2>👤 個人設定</h2>
 
-      <el-descriptions v-if="authStore.user" :column="1" border>
-        <el-descriptions-item label="帳號">{{ authStore.user.username }}</el-descriptions-item>
-        <el-descriptions-item label="信箱">{{ authStore.user.email }}</el-descriptions-item>
-        <el-descriptions-item label="身分">{{ authStore.user.role }}</el-descriptions-item>
+      <el-descriptions v-if="user.value.username" :column="1" border>
+        <el-descriptions-item label="帳號">{{ user.value.username }}</el-descriptions-item>
+        <el-descriptions-item label="信箱">{{ user.value.email }}</el-descriptions-item>
+        <el-descriptions-item label="身分">{{ user.value.role }}</el-descriptions-item>
       </el-descriptions>
 
       <el-divider>修改密碼</el-divider>
@@ -30,12 +30,18 @@
 </template>
 
 <script setup>
-import { reactive, onMounted } from "vue";
+import { reactive, computed, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import { useAuthStore } from "@/stores/authStore";
 
 const authStore = useAuthStore();
 const API_BASE = import.meta.env.VITE_API_BASE;
+
+const user = computed(() => authStore.user || {
+  username: '',
+  email: '',
+  role: '',
+});
 
 const form = reactive({
   oldPassword: "",
@@ -58,8 +64,8 @@ const submitPassword = async () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "x-username": authStore.user.username,
-        "x-role": authStore.user.role,
+        "x-username": user.value.username,
+        "x-role": user.value.role,
       },
       body: JSON.stringify({
         oldPassword: form.oldPassword,
@@ -77,7 +83,6 @@ const submitPassword = async () => {
   }
 };
 
-// 初次載入：若 authStore 無 user → 從 localStorage 補回來
 if (!authStore.user) {
   const storedUser = {
     username: localStorage.getItem("username"),
@@ -89,20 +94,19 @@ if (!authStore.user) {
   }
 }
 
-// 呼叫後端取得完整 user profile
 onMounted(async () => {
   try {
     const res = await fetch(`${API_BASE}/profile/me`, {
       headers: {
-        "x-username": authStore.user?.username || "",
-        "x-role": authStore.user?.role || "",
+        "x-username": user.value.username,
+        "x-role": user.value.role,
       },
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "取得個人資料失敗");
 
-    authStore.login(data); // 用完整資料更新 authStore（順便更新 localStorage）
-    console.log("✅ 後端回傳 user：", data);
+    authStore.login(data);
+    console.log("✅ 取得個人資料：", data);
   } catch (err) {
     ElMessage.error(err.message);
   }
