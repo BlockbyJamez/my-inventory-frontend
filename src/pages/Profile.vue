@@ -1,7 +1,10 @@
 <template>
   <div class="profile-page">
     <el-card class="profile-card" shadow="always">
-      <h2>👤 個人設定</h2>
+      <div class="header">
+        <el-page-header content="👤 個人設定" @back="goBack" />
+      </div>
+      <h2 class="title">👤 個人帳號修改</h2>
 
       <el-descriptions v-if="user.value.username" :column="1" border>
         <el-descriptions-item label="帳號">{{ user.value.username }}</el-descriptions-item>
@@ -31,10 +34,12 @@
 
 <script setup>
 import { reactive, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { useAuthStore } from "@/stores/authStore";
 
 const authStore = useAuthStore();
+const router = useRouter();
 const API_BASE = import.meta.env.VITE_API_BASE;
 
 const user = computed(() => authStore.user || {
@@ -111,6 +116,10 @@ onMounted(async () => {
     ElMessage.error(err.message);
   }
 });
+
+function goBack() {
+  router.push('/')
+}
 </script>
 
 <style scoped>
@@ -118,6 +127,19 @@ onMounted(async () => {
   padding: 24px;
   max-width: 720px;
   margin: auto;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #303133;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 .profile-card {
   padding: 20px;
