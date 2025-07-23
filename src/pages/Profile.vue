@@ -1,20 +1,20 @@
 <template>
   <div class="profile-page">
-    <el-card v-if="isLoaded" class="profile-card" shadow="always">
+    <el-card v-if="user" class="profile-card" shadow="always">
       <div class="header">
         <el-page-header content="👤 個人設定" @back="goBack" />
       </div>
-      <h2 class="title">👤 個人帳號修改</h2>
+      <h2 class="title">🛂 個人資料</h2>
 
-      <el-descriptions v-if="user.value.username" :column="1" border>
-        <el-descriptions-item label="帳號">{{ user.value.username }}</el-descriptions-item>
-        <el-descriptions-item label="信箱">{{ user.value.email }}</el-descriptions-item>
-        <el-descriptions-item label="身分">{{ user.value.role }}</el-descriptions-item>
+      <el-descriptions :column="1" border>
+        <el-descriptions-item label="帳號">{{ user.username }}</el-descriptions-item>
+        <el-descriptions-item label="信箱">{{ user.email }}</el-descriptions-item>
+        <el-descriptions-item label="身分">{{ user.role }}</el-descriptions-item>
       </el-descriptions>
 
       <el-divider>修改密碼</el-divider>
 
-      <el-form :model="form" label-width="100px" class="password-form" @submit.prevent>
+      <el-form :model="form" label-width="100px" @submit.prevent class="password-form">
         <el-form-item label="舊密碼">
           <el-input v-model="form.oldPassword" type="password" show-password placeholder="請輸入舊密碼" />
         </el-form-item>
@@ -33,108 +33,89 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { ElMessage } from "element-plus";
-import { useAuthStore } from "@/stores/authStore";
+import { ref, reactive, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { useAuthStore } from '@/stores/authStore'
 
-const authStore = useAuthStore();
-const router = useRouter();
-const API_BASE = import.meta.env.VITE_API_BASE;
+const router = useRouter()
+const authStore = useAuthStore()
+const API_BASE = import.meta.env.VITE_API_BASE
 
-const isLoaded = ref(false); // ✅ 控制畫面是否可渲染
-const user = computed(() => authStore.user || { username: "", email: "", role: "" });
-
+const user = ref(null)
 const form = reactive({
-  oldPassword: "",
-  newPassword: "",
-  confirmPassword: "",
-});
+  oldPassword: '',
+  newPassword: '',
+  confirmPassword: '',
+})
 
-const submitPassword = async () => {
+async function fetchProfile() {
+  try {
+    const res = await fetch(`${API_BASE}/profile/me`, {
+      headers: {
+        'x-username': authStore.user?.username || localStorage.getItem('username') || '',
+        'x-role': authStore.user?.role || localStorage.getItem('role') || '',
+      }
+    })
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || '取得個人資料失敗')
+    authStore.login(data)
+    user.value = data
+    console.log('✅ 取得個人資料成功:', data)
+  } catch (err) {
+    ElMessage.error(err.message)
+  }
+}
+
+async function submitPassword() {
   if (!form.oldPassword || !form.newPassword || !form.confirmPassword) {
-    ElMessage.warning("請完整填寫所有欄位");
-    return;
+    return ElMessage.warning('請完整填寫所有欄位')
   }
   if (form.newPassword !== form.confirmPassword) {
-    ElMessage.error("新密碼與確認密碼不一致");
-    return;
+    return ElMessage.error('新密碼與確認密碼不一致')
   }
 
   try {
     const res = await fetch(`${API_BASE}/profile/change-password`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
-        "x-username": user.value.username,
-        "x-role": user.value.role,
+        'Content-Type': 'application/json',
+        'x-username': user.value.username,
+        'x-role': user.value.role
       },
       body: JSON.stringify({
         oldPassword: form.oldPassword,
-        newPassword: form.newPassword,
-      }),
-    });
+        newPassword: form.newPassword
+      })
+    })
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "修改失敗");
-
-    ElMessage.success(data.message || "密碼修改成功");
-    form.oldPassword = form.newPassword = form.confirmPassword = "";
+    const result = await res.json()
+    if (!res.ok) throw new Error(result.error || '密碼修改失敗')
+    ElMessage.success('✅ 密碼修改成功')
+    form.oldPassword = form.newPassword = form.confirmPassword = ''
   } catch (err) {
-    ElMessage.error(err.message);
-  }
-};
-
-// 初始登入資料補齊
-if (!authStore.user) {
-  const storedUser = {
-    username: localStorage.getItem("username"),
-    role: localStorage.getItem("role"),
-    email: localStorage.getItem("email"),
-  };
-  if (storedUser.username && storedUser.role && storedUser.email) {
-    authStore.login(storedUser);
+    ElMessage.error(err.message)
   }
 }
-
-// 取得個人資料
-onMounted(async () => {
-  try {
-    const res = await fetch(`${API_BASE}/profile/me`, {
-      headers: {
-        "x-username": localStorage.getItem("username") || "",
-        "x-role": localStorage.getItem("role") || "",
-      },
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "取得個人資料失敗");
-
-    authStore.login(data); // 更新到 Pinia store 和 localStorage
-    console.log("✅ 取得個人資料：", data);
-  } catch (err) {
-    ElMessage.error(err.message);
-  } finally {
-    isLoaded.value = true; // ✅ 確保畫面只在成功或失敗後才顯示
-  }
-});
 
 function goBack() {
-  router.push("/");
+  router.push('/')
 }
+
+onMounted(fetchProfile)
 </script>
 
 <style scoped>
 .profile-page {
-  padding: 24px;
   max-width: 720px;
-  margin: auto;
+  margin: 40px auto;
+  padding: 0 20px;
 }
+
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
+
 .title {
   font-size: 1.8rem;
   font-weight: 600;
@@ -142,10 +123,13 @@ function goBack() {
   text-align: center;
   margin-bottom: 1.5rem;
 }
+
 .profile-card {
-  padding: 20px;
-  border-radius: 12px;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
+
 .password-form {
   margin-top: 24px;
 }
