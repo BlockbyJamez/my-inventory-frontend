@@ -30,11 +30,18 @@
 </template>
 
 <script setup>
-import { reactive, computed } from "vue";
+import { reactive, ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import { useAuthStore } from "@/stores/authStore";
 
 const authStore = useAuthStore();
+const API_BASE = import.meta.env.VITE_API_BASE;
+
+const user = ref({
+  username: "",
+  email: "",
+  role: "",
+});
 
 if (!authStore.user) {
   const storedUser = {
@@ -47,11 +54,23 @@ if (!authStore.user) {
   }
 }
 
-const user = computed(() => authStore.user ?? {
-  username: '',
-  email: '',
-  role: '',
-});
+async function fetchProfile() {
+  try {
+    const res = await fetch(`${API_BASE}/profile/me`, {
+      headers: {
+        "x-username": localStorage.getItem("username"),
+        "x-role": localStorage.getItem("role"),
+      },
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "取得個人資料失敗");
+    user.value = data;
+  } catch (err) {
+    ElMessage.error(err.message);
+  }
+}
+
+onMounted(fetchProfile);
 
 const form = reactive({
   oldPassword: "",
@@ -70,7 +89,7 @@ const submitPassword = async () => {
   }
 
   try {
-    const res = await fetch("https://my-inventory-backend-lyte.onrender.com/profile/change-password", {
+    const res = await fetch(`${API_BASE}/profile/change-password`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
