@@ -1,6 +1,6 @@
 <template>
   <div class="profile-page">
-    <el-card class="profile-card" shadow="always">
+    <el-card v-if="isLoaded" class="profile-card" shadow="always">
       <div class="header">
         <el-page-header content="👤 個人設定" @back="goBack" />
       </div>
@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { reactive, computed, onMounted } from "vue";
+import { reactive, ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { useAuthStore } from "@/stores/authStore";
@@ -42,11 +42,8 @@ const authStore = useAuthStore();
 const router = useRouter();
 const API_BASE = import.meta.env.VITE_API_BASE;
 
-const user = computed(() => authStore.user || {
-  username: '',
-  email: '',
-  role: '',
-});
+const isLoaded = ref(false); // ✅ 控制畫面是否可渲染
+const user = computed(() => authStore.user || { username: "", email: "", role: "" });
 
 const form = reactive({
   oldPassword: "",
@@ -88,6 +85,7 @@ const submitPassword = async () => {
   }
 };
 
+// 初始登入資料補齊
 if (!authStore.user) {
   const storedUser = {
     username: localStorage.getItem("username"),
@@ -99,26 +97,29 @@ if (!authStore.user) {
   }
 }
 
+// 取得個人資料
 onMounted(async () => {
   try {
     const res = await fetch(`${API_BASE}/profile/me`, {
       headers: {
-        "x-username": user.value.username,
-        "x-role": user.value.role,
+        "x-username": localStorage.getItem("username") || "",
+        "x-role": localStorage.getItem("role") || "",
       },
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "取得個人資料失敗");
 
-    authStore.login(data);
+    authStore.login(data); // 更新到 Pinia store 和 localStorage
     console.log("✅ 取得個人資料：", data);
   } catch (err) {
     ElMessage.error(err.message);
+  } finally {
+    isLoaded.value = true; // ✅ 確保畫面只在成功或失敗後才顯示
   }
 });
 
 function goBack() {
-  router.push('/')
+  router.push("/");
 }
 </script>
 
