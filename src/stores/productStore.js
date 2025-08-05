@@ -17,12 +17,19 @@ export const useProductStore = defineStore("product", {
 
     async addProduct(product) {
       const auth = useAuthStore();
-      await axios.post(`${API_BASE}/products`, product, {
-        headers: {
-          "x-role": auth.user?.role,
-          "x-username": auth.user?.username || "unknown",
+      await axios.post(
+        `${API_BASE}/products`,
+        {
+          ...product,
+          role: auth.user?.role,
+          username: auth.user?.username || "unknown",
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       this.fetchProducts();
       ElMessage.success("商品已新增");
     },
@@ -30,9 +37,12 @@ export const useProductStore = defineStore("product", {
     async deleteProduct(id) {
       const auth = useAuthStore();
       await axios.delete(`${API_BASE}/products/${id}`, {
+        data: {
+          role: auth.user?.role,
+          username: auth.user?.username || "unknown",
+        },
         headers: {
-          "x-role": auth.user?.role,
-          "x-username": auth.user?.username || "unknown",
+          "Content-Type": "application/json",
         },
       });
       this.fetchProducts();
@@ -41,12 +51,19 @@ export const useProductStore = defineStore("product", {
 
     async updateProduct(id, updatedData) {
       const auth = useAuthStore();
-      await axios.put(`${API_BASE}/products/${id}`, updatedData, {
-        headers: {
-          "x-role": auth.user?.role,
-          "x-username": auth.user?.username || "unknown",
+      await axios.put(
+        `${API_BASE}/products/${id}`,
+        {
+          ...updatedData,
+          role: auth.user?.role,
+          username: auth.user?.username || "unknown",
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       this.fetchProducts();
       ElMessage.success("商品已更新");
     },
