@@ -520,16 +520,6 @@ function beforeUpload(file) {
   text-align: center;
 }
 
-.two-buttons-inline .el-message-box__btns {
-  display: flex !important;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-
-.two-buttons-inline .el-message-box__btns .el-button {
-  flex: 1;
-}
-
 @media (max-width: 768px) {
   .stat-cards {
     grid-template-columns: 1fr;
@@ -662,6 +652,16 @@ function beforeUpload(file) {
     flex: 1 1 40%;
     min-width: 100px;
     white-space: nowrap;
+  }
+
+  .two-buttons-inline .el-message-box__btns {
+    display: flex !important;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .two-buttons-inline .el-message-box__btns .el-button {
+    flex: 1;
   }
 }
 </style>
