@@ -653,16 +653,5 @@ function beforeUpload(file) {
     min-width: 100px;
     white-space: nowrap;
   }
-
-  ::v-deep(.two-buttons-inline .el-message-box__btns) {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
-    gap: 0.5rem !important;
-  }
-
-  ::v-deep(.two-buttons-inline .el-message-box__btns .el-button) {
-    flex: 1 !important;
-  }
 }
 </style>

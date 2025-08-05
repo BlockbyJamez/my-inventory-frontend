@@ -156,3 +156,14 @@ body.is-mobile textarea,
 body.is-mobile .el-input__inner {
   font-size: 16px !important;
 }
+
+body.is-mobile .two-buttons-inline .el-message-box__btns {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  gap: 0.5rem !important;
+}
+
+body.is-mobile .two-buttons-inline .el-message-box__btns .el-button {
+  flex: 1 !important;
+}
