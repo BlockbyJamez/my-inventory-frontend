@@ -654,14 +654,14 @@ function beforeUpload(file) {
     white-space: nowrap;
   }
 
-  .two-buttons-inline .el-message-box__btns {
+  ::v-deep(.two-buttons-inline .el-message-box__btns) {
     display: flex !important;
     flex-direction: row !important;
     justify-content: space-between !important;
     gap: 0.5rem !important;
   }
 
-  .two-buttons-inline .el-message-box__btns .el-button {
+  ::v-deep(.two-buttons-inline .el-message-box__btns .el-button) {
     flex: 1 !important;
   }
 }
