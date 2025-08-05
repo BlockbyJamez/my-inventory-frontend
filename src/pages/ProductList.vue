@@ -330,6 +330,7 @@ function deleteProduct(id) {
     confirmButtonText: "確定",
     cancelButtonText: "取消",
     type: "warning",
+    customClass: "two-buttons-inline",
   })
     .then(async () => {
       try {
@@ -517,6 +518,16 @@ function beforeUpload(file) {
 
 .pagination {
   text-align: center;
+}
+
+.two-buttons-inline .el-message-box__btns {
+  display: flex !important;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.two-buttons-inline .el-message-box__btns .el-button {
+  flex: 1;
 }
 
 @media (max-width: 768px) {
