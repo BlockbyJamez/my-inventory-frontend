@@ -656,12 +656,13 @@ function beforeUpload(file) {
 
   .two-buttons-inline .el-message-box__btns {
     display: flex !important;
-    justify-content: space-between;
-    gap: 0.5rem;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    gap: 0.5rem !important;
   }
 
   .two-buttons-inline .el-message-box__btns .el-button {
-    flex: 1;
+    flex: 1 !important;
   }
 }
 </style>
